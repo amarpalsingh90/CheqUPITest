@@ -1,6 +1,5 @@
 package com.dev.chequpitest.presentation
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -13,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.AppNavigation
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 import com.dev.chequpitest.ui.theme.CheqUpiTestTheme
@@ -42,18 +42,19 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         }
         Checkout.preload(applicationContext)
         val co = Checkout()
-        co.setKeyID("rzp_test_RF4p9vo7HvkUVV")
+        co.setKeyID(StringConstants.RAZORPAY_KEY_ID)
         Checkout.sdkCheckIntegration(this)
 
     }
 
     override fun onPaymentSuccess(p0: String?) {
-        Log.d("Payment", "success: $p0")
+        Log.d(StringConstants.LOG_TAG_PAYMENT, "success: $p0")
         viewModel.clearCart()
 
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
+        Log.d(StringConstants.LOG_TAG_PAYMENT, "error: $p0 - $p1")
         viewModel.clearError()
     }
 
@@ -61,17 +62,21 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         try {
             val co = Checkout()
             val options = JSONObject()
-            options.put("name", "CheqUpi Test")
-            options.put("description", "Rozorpay Payment")
-            options.put("currency", "INR");
+            options.put("name", StringConstants.PAYMENT_NAME)
+            options.put("description", StringConstants.PAYMENT_DESCRIPTION)
+            options.put("currency", StringConstants.CURRENCY_INR)
             options.put("amount", (amount * 100).toInt())
+            options.put("prefill.email", StringConstants.RAZORPAY_EMAIL)
+            options.put("prefill.contact", StringConstants.RAZORPAY_CONTACT)
+            options.put("prefill.method", StringConstants.RAZORPAY_METHOD)
+            
             val retryObj = JSONObject()
             retryObj.put("enabled", true)
             retryObj.put("max_count", 5)
             options.put("retry", retryObj)
             co.open(this, options)
         } catch (e: Exception) {
-            Toast.makeText(this, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "${StringConstants.ERROR_PAYMENT_INITIALIZATION}: ${e.message}", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }

@@ -30,16 +30,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dev.chequpitest.R
-import com.dev.chequpitest.data.auth.GoogleSignInHelper
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.navigateAndPopUpTo
 import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.state.AuthUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.AuthViewModel
-import dagger.hilt.android.EntryPointAccessors
 
 @Composable
 fun LoginScreen(
@@ -47,7 +45,6 @@ fun LoginScreen(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
 
     val addAccountLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -82,14 +79,14 @@ fun LoginScreen(
             // App Logo
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "App Logo",
+                contentDescription = StringConstants.CONTENT_DESC_APP_LOGO,
                 modifier = Modifier.size(100.dp)
             )
             
             Spacer(modifier = Modifier.height(32.dp))
             
             Text(
-                text = "Welcome to CheqUpi Test",
+                text = StringConstants.WELCOME_MESSAGE,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -142,7 +139,7 @@ fun LoginScreen(
                         OutlinedButton(
                             onClick = { viewModel.clearError() }
                         ) {
-                            Text("Try Again")
+                            Text(StringConstants.RETRY)
                         }
                     }
                 }
@@ -151,19 +148,19 @@ fun LoginScreen(
                         onClick = { viewModel.signInWithGoogle() },
                         modifier = Modifier.size(width = 280.dp, height = 56.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black
+                            containerColor = Color.Black,
+                            contentColor = Color.White
                         )
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_foreground), // Replace with Google logo
+                            painter = painterResource(id = R.drawable.google), // Replace with Google logo
                             contentDescription = "Google Logo",
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Text(
-                            text = "Sign in with Google",
-                            fontWeight = FontWeight.Medium
+                            text = StringConstants.SIGN_IN_WITH_GOOGLE,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }

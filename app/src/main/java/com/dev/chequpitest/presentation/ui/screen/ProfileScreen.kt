@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.popBackTo
 import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.state.AuthUiState
@@ -52,10 +53,10 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Profile") },
+                title = { Text(StringConstants.PROFILE) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackTo(AppRoutes.Home) }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = StringConstants.CONTENT_DESC_BACK)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

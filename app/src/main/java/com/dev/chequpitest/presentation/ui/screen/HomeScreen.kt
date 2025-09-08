@@ -37,9 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.navigateToCheckout
 import com.dev.chequpitest.presentation.navigation.navigateToProfile
-import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.components.CartBadge
 import com.dev.chequpitest.presentation.ui.components.NavigationDrawer
 import com.dev.chequpitest.presentation.ui.components.ProductItem
@@ -72,10 +72,10 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Products") },
+                title = { Text(StringConstants.PRODUCTS) },
                 navigationIcon = {
                     IconButton(onClick = { showDrawer = true }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
+                        Icon(Icons.Default.Menu, contentDescription = StringConstants.CONTENT_DESC_MENU)
                     }
                 },
                 actions = {
@@ -84,7 +84,7 @@ fun HomeScreen(
                                     onClick = { navController.navigateToCheckout() }
                                 )
                     IconButton(onClick = { productsViewModel.refreshProducts() }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Refresh")
+                        Icon(Icons.Default.Refresh, contentDescription = StringConstants.CONTENT_DESC_REFRESH)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -98,13 +98,13 @@ fun HomeScreen(
                             FloatingActionButton(
                                 onClick = { navController.navigateToCheckout() }
                             ) {
-                                Icon(Icons.Default.ShoppingCart, contentDescription = "Go to Checkout")
+                                Icon(Icons.Default.ShoppingCart, contentDescription = StringConstants.CONTENT_DESC_GO_TO_CHECKOUT)
                             }
             } else {
                 FloatingActionButton(
                     onClick = { productsViewModel.refreshProducts() }
                 ) {
-                    Icon(Icons.Default.Refresh, contentDescription = "Refresh Products")
+                    Icon(Icons.Default.Refresh, contentDescription = StringConstants.REFRESH_PRODUCTS)
                 }
             }
         }
@@ -153,7 +153,7 @@ fun HomeScreen(
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Button(onClick = { productsViewModel.refreshProducts() }) {
-                                    Text("Refresh")
+                                    Text(StringConstants.REFRESH)
                                 }
                             }
                         }
@@ -201,7 +201,7 @@ fun HomeScreen(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Button(onClick = { productsViewModel.refreshProducts() }) {
-                                Text("Retry")
+                                Text(StringConstants.RETRY)
                             }
                         }
                     }

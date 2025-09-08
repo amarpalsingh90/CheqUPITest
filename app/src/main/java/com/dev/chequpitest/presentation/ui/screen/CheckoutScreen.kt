@@ -45,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.popBackTo
 import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.event.PaymentEvent
@@ -71,10 +72,10 @@ fun CheckoutScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Checkout") },
+                title = { Text(StringConstants.CHECKOUT) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackTo(AppRoutes.Home) }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = StringConstants.CONTENT_DESC_BACK)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -120,13 +121,13 @@ fun CheckoutScreen(
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text(
-                                    text = "Your cart is empty",
+                                    text = StringConstants.YOUR_CART_IS_EMPTY,
                                     style = MaterialTheme.typography.headlineSmall,
                                     textAlign = TextAlign.Center
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Button(onClick = { navController.popBackTo(AppRoutes.Home) }) {
-                                    Text("Continue Shopping")
+                                    Text(StringConstants.CONTINUE_SHOPPING)
                                 }
                             }
                         }
@@ -162,7 +163,7 @@ fun CheckoutScreen(
                                     modifier = Modifier.padding(16.dp)
                                 ) {
                                     Text(
-                                        text = "Order Summary",
+                                        text = StringConstants.ORDER_SUMMARY,
                                         style = MaterialTheme.typography.headlineSmall,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -173,7 +174,7 @@ fun CheckoutScreen(
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
                                         Text(
-                                            text = "Total Items:",
+                                            text = "${StringConstants.TOTAL_ITEMS}:",
                                             style = MaterialTheme.typography.bodyLarge
                                         )
                                         Text(
@@ -190,12 +191,12 @@ fun CheckoutScreen(
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
                                         Text(
-                                            text = "Total Amount:",
+                                            text = "${StringConstants.TOTAL_AMOUNT}:",
                                             style = MaterialTheme.typography.titleLarge,
                                             fontWeight = FontWeight.Bold
                                         )
                                         Text(
-                                            text = "$${String.format("%.2f", cratState.cart.totalAmount)}",
+                                            text = "${StringConstants.CURRENCY_SYMBOL}${String.format(StringConstants.CURRENCY_FORMAT, cratState.cart.totalAmount)}",
                                             style = MaterialTheme.typography.titleLarge,
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary
@@ -212,7 +213,7 @@ fun CheckoutScreen(
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
                                         Text(
-                                            text = "Complete Checkout",
+                                            text = StringConstants.COMPLETE_CHECKOUT,
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Bold
                                         )
@@ -239,7 +240,7 @@ fun CheckoutScreen(
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Button(onClick = { cartViewModel.clearError() }) {
-                                Text("Retry")
+                                Text(StringConstants.RETRY)
                             }
                         }
                     }

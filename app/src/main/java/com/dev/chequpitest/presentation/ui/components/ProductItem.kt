@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
+import com.dev.chequpitest.constant.StringConstants
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -66,7 +67,7 @@ fun ProductItem(
                 Spacer(modifier = Modifier.width(8.dp))
                 
                 Text(
-                    text = "$${String.format("%.2f", product.price)}",
+                    text = "${StringConstants.CURRENCY_SYMBOL}${String.format(StringConstants.CURRENCY_FORMAT, product.price)}",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -177,7 +178,7 @@ fun ProductItem(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Remove",
+                                contentDescription = StringConstants.CONTENT_DESC_REMOVE,
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
@@ -195,7 +196,7 @@ fun ProductItem(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add",
+                                contentDescription = StringConstants.CONTENT_DESC_ADD_TO_CART,
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -213,7 +214,7 @@ fun ProductItem(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Add to Cart",
+                            contentDescription = StringConstants.CONTENT_DESC_ADD_TO_CART,
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }

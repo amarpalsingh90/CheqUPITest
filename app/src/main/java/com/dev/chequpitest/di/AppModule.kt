@@ -2,7 +2,7 @@ package com.dev.chequpitest.di
 
 import android.content.Context
 import androidx.room.Room
-import com.dev.chequpitest.core.API_URL
+import com.dev.chequpitest.constant.API_URL
 import com.dev.chequpitest.data.auth.GoogleSignInHelper
 import com.dev.chequpitest.data.local.dao.CartDao
 import com.dev.chequpitest.data.local.dao.UserDao

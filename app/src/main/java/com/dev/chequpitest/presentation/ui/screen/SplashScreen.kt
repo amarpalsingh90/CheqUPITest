@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dev.chequpitest.R
+import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.navigateAndPopUpTo
 import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.state.AuthUiState
@@ -74,12 +75,12 @@ fun SplashScreen(
             // App Logo or Icon
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "App Logo",
+                contentDescription = StringConstants.CONTENT_DESC_APP_LOGO,
                 modifier = Modifier.size(120.dp)
             )
             
             Text(
-                text = "CheqUpi Test",
+                text = StringConstants.APP_NAME,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp

@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.dev.chequpitest.constant.StringConstants
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +58,7 @@ fun NavigationDrawer(
                 ) {
                     Column {
                         Text(
-                            text = "CheqUpi Test",
+                            text = StringConstants.APP_NAME,
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -94,7 +95,7 @@ fun NavigationDrawer(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = "Profile",
+                        text = StringConstants.PROFILE,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -124,7 +125,7 @@ fun NavigationDrawer(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = "Logout",
+                        text = StringConstants.LOGOUT,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.error
                     )

@@ -1,3 +1,3 @@
-package com.dev.chequpitest.core
+package com.dev.chequpitest.constant
 
 const val  API_URL= "https://dummyjson.com/"
