@@ -61,13 +61,13 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         try {
             val co = Checkout()
             val options = JSONObject()
-            options.put("name", "Razorpay Corp")
-            options.put("description", "Demoing Charges")
+            options.put("name", "CheqUpi Test")
+            options.put("description", "Rozorpay Payment")
             options.put("currency", "INR");
-            options.put("amount", amount * 100)
+            options.put("amount", (amount * 100).toInt())
             val retryObj = JSONObject()
             retryObj.put("enabled", true)
-            retryObj.put("max_count", 40)
+            retryObj.put("max_count", 5)
             options.put("retry", retryObj)
             co.open(this, options)
         } catch (e: Exception) {
