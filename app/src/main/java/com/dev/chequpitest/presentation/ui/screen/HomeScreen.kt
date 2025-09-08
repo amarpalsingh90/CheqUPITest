@@ -13,9 +13,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -34,15 +33,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.dev.chequpitest.presentation.ui.components.CartBadge
 import com.dev.chequpitest.presentation.ui.components.NavigationDrawer
 import com.dev.chequpitest.presentation.ui.components.ProductItem
+import com.dev.chequpitest.presentation.ui.state.CartUiState
 import com.dev.chequpitest.presentation.ui.state.ProductUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.AuthViewModel
+import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 import com.dev.chequpitest.presentation.ui.viewmodel.ProductsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,10 +51,19 @@ import com.dev.chequpitest.presentation.ui.viewmodel.ProductsViewModel
 fun HomeScreen(
     navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel(),
-    productsViewModel: ProductsViewModel = hiltViewModel()
+    productsViewModel: ProductsViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     var showDrawer by remember { mutableStateOf(false) }
     val productUiState by productsViewModel.uiState.collectAsState()
+    val cartUiState by cartViewModel.uiState.collectAsState()
+    
+    val cartItemCount = when (cartUiState) {
+        is CartUiState.Success -> {
+            (cartUiState as CartUiState.Success).cart.totalItems
+        }
+        else -> 0
+    }
 
     Scaffold(
         topBar = {
@@ -65,6 +75,10 @@ fun HomeScreen(
                     }
                 },
                 actions = {
+                    CartBadge(
+                        itemCount = cartItemCount,
+                        onClick = { navController.navigate("checkout") }
+                    )
                     IconButton(onClick = { productsViewModel.refreshProducts() }) {
                         Icon(Icons.Default.Refresh, contentDescription = "Refresh")
                     }
@@ -76,10 +90,18 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { productsViewModel.refreshProducts() }
-            ) {
-                Icon(Icons.Default.Refresh, contentDescription = "Refresh Products")
+            if (cartItemCount > 0) {
+                FloatingActionButton(
+                    onClick = { navController.navigate("checkout") }
+                ) {
+                    Icon(Icons.Default.ShoppingCart, contentDescription = "Go to Checkout")
+                }
+            } else {
+                FloatingActionButton(
+                    onClick = { productsViewModel.refreshProducts() }
+                ) {
+                    Icon(Icons.Default.Refresh, contentDescription = "Refresh Products")
+                }
             }
         }
     ) { paddingValues ->
@@ -138,7 +160,21 @@ fun HomeScreen(
                         ) {
 
                             items(uistate.products.products) { product ->
-                                ProductItem(product = product)
+                                val cartItem = when (cartUiState) {
+                                    is com.dev.chequpitest.presentation.ui.state.CartUiState.Success -> 
+                                        (cartUiState as CartUiState.Success).cart.items.find { it.productId == product.id }
+                                    else -> null
+                                }
+                                
+                                ProductItem(
+                                    product = product,
+                                    cartQuantity = cartItem?.quantity ?: 0,
+                                    onAddToCart = { cartViewModel.addToCart(product) },
+                                    onRemoveFromCart = { cartViewModel.removeFromCart(product.id) },
+                                    onUpdateQuantity = { quantity -> 
+                                        cartViewModel.updateQuantity(product.id, quantity) 
+                                    }
+                                )
                             }
                         }
                     }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dev.chequpitest.presentation.ui.screen.CheckoutScreen
 import com.dev.chequpitest.presentation.ui.screen.HomeScreen
 import com.dev.chequpitest.presentation.ui.screen.LoginScreen
 import com.dev.chequpitest.presentation.ui.screen.ProfileScreen
@@ -29,6 +30,9 @@ fun AppNavigation(navController: NavHostController) {
         
         composable("profile") {
             ProfileScreen(navController = navController)
+        }
+        composable("checkout") {
+            CheckoutScreen(navController = navController)
         }
     }
 }
