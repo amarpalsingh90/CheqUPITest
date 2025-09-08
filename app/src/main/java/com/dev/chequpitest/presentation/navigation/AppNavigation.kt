@@ -11,7 +11,10 @@ import com.dev.chequpitest.presentation.ui.screen.ProfileScreen
 import com.dev.chequpitest.presentation.ui.screen.SplashScreen
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(
+    navController: NavHostController,
+    startPayment: (totalAmount: Double) -> Unit
+) {
     NavHost(
         navController = navController,
         startDestination = "splash"
@@ -32,7 +35,7 @@ fun AppNavigation(navController: NavHostController) {
             ProfileScreen(navController = navController)
         }
         composable("checkout") {
-            CheckoutScreen(navController = navController)
+            CheckoutScreen(navController = navController, startPayment = startPayment)
         }
     }
 }

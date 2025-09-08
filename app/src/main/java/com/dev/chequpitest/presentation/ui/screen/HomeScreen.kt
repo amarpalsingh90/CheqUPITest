@@ -57,11 +57,12 @@ fun HomeScreen(
     var showDrawer by remember { mutableStateOf(false) }
     val productUiState by productsViewModel.uiState.collectAsState()
     val cartUiState by cartViewModel.uiState.collectAsState()
-    
+
     val cartItemCount = when (cartUiState) {
         is CartUiState.Success -> {
             (cartUiState as CartUiState.Success).cart.totalItems
         }
+
         else -> 0
     }
 
@@ -131,9 +132,9 @@ fun HomeScreen(
                         }
                     }
                 }
-                
+
                 is ProductUiState.Success -> {
-                    val uistate= productUiState as ProductUiState.Success
+                    val uistate = productUiState as ProductUiState.Success
                     if (uistate.products.products.isEmpty()) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -161,25 +162,26 @@ fun HomeScreen(
 
                             items(uistate.products.products) { product ->
                                 val cartItem = when (cartUiState) {
-                                    is com.dev.chequpitest.presentation.ui.state.CartUiState.Success -> 
+                                    is com.dev.chequpitest.presentation.ui.state.CartUiState.Success ->
                                         (cartUiState as CartUiState.Success).cart.items.find { it.productId == product.id }
+
                                     else -> null
                                 }
-                                
+
                                 ProductItem(
                                     product = product,
                                     cartQuantity = cartItem?.quantity ?: 0,
                                     onAddToCart = { cartViewModel.addToCart(product) },
                                     onRemoveFromCart = { cartViewModel.removeFromCart(product.id) },
-                                    onUpdateQuantity = { quantity -> 
-                                        cartViewModel.updateQuantity(product.id, quantity) 
+                                    onUpdateQuantity = { quantity ->
+                                        cartViewModel.updateQuantity(product.id, quantity)
                                     }
                                 )
                             }
                         }
                     }
                 }
-                
+
                 is ProductUiState.Error -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -209,7 +211,7 @@ fun HomeScreen(
     if (showDrawer) {
         NavigationDrawer(
             onDismiss = { showDrawer = false },
-            onProfileClick = { 
+            onProfileClick = {
                 showDrawer = false
                 navController.navigate("profile")
             },

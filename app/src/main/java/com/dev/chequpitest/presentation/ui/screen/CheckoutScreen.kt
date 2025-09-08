@@ -31,17 +31,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.dev.chequpitest.presentation.ui.event.PaymentEvent
 import com.dev.chequpitest.presentation.ui.state.CartUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 
@@ -49,10 +53,19 @@ import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 @Composable
 fun CheckoutScreen(
     navController: NavController,
-    cartViewModel: CartViewModel = hiltViewModel()
+    cartViewModel: CartViewModel = hiltViewModel(),
+    startPayment: (totalAmount: Double) -> Unit
 ) {
     val cartUiState by cartViewModel.uiState.collectAsState()
-
+    LaunchedEffect(key1 = true) {
+        cartViewModel.uiEvent.collect { event ->
+            when (event) {
+                is PaymentEvent.StartPayment -> {
+                    startPayment(event.amount)
+                }
+            }
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -135,7 +148,7 @@ fun CheckoutScreen(
                                     )
                                 }
                             }
-                            
+                            val context = LocalContext.current
                             // Total Summary Card
                             Card(
                                 modifier = Modifier
@@ -191,8 +204,7 @@ fun CheckoutScreen(
                                     
                                     Button(
                                         onClick = {
-                                            // TODO: Implement checkout logic
-                                            cartViewModel.clearCart()
+                                            cartViewModel.onPayButtonClicked(cratState.cart.totalAmount)
                                             navController.popBackStack()
                                         },
                                         modifier = Modifier.fillMaxWidth()
