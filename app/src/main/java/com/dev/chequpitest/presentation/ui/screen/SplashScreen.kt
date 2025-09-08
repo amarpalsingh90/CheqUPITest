@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dev.chequpitest.R
+import com.dev.chequpitest.presentation.navigation.navigateAndPopUpTo
+import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.state.AuthUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.AuthViewModel
 
@@ -38,19 +40,25 @@ fun SplashScreen(
                 // Keep showing loading
             }
             is AuthUiState.Authenticated -> {
-                navController.navigate("home") {
-                    popUpTo("splash") { inclusive = true }
-                }
+                navController.navigateAndPopUpTo(
+                    destination = AppRoutes.Home,
+                    popUpTo = AppRoutes.Splash,
+                    inclusive = true
+                )
             }
             is AuthUiState.Unauthenticated -> {
-                navController.navigate("login") {
-                    popUpTo("splash") { inclusive = true }
-                }
+                navController.navigateAndPopUpTo(
+                    destination = AppRoutes.Login,
+                    popUpTo = AppRoutes.Splash,
+                    inclusive = true
+                )
             }
             is AuthUiState.Error -> {
-                navController.navigate("login") {
-                    popUpTo("splash") { inclusive = true }
-                }
+                navController.navigateAndPopUpTo(
+                    destination = AppRoutes.Login,
+                    popUpTo = AppRoutes.Splash,
+                    inclusive = true
+                )
             }
         }
     }

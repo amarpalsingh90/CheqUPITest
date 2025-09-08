@@ -37,6 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.dev.chequpitest.presentation.navigation.navigateToCheckout
+import com.dev.chequpitest.presentation.navigation.navigateToProfile
+import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.components.CartBadge
 import com.dev.chequpitest.presentation.ui.components.NavigationDrawer
 import com.dev.chequpitest.presentation.ui.components.ProductItem
@@ -76,10 +79,10 @@ fun HomeScreen(
                     }
                 },
                 actions = {
-                    CartBadge(
-                        itemCount = cartItemCount,
-                        onClick = { navController.navigate("checkout") }
-                    )
+                                CartBadge(
+                                    itemCount = cartItemCount,
+                                    onClick = { navController.navigateToCheckout() }
+                                )
                     IconButton(onClick = { productsViewModel.refreshProducts() }) {
                         Icon(Icons.Default.Refresh, contentDescription = "Refresh")
                     }
@@ -91,12 +94,12 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            if (cartItemCount > 0) {
-                FloatingActionButton(
-                    onClick = { navController.navigate("checkout") }
-                ) {
-                    Icon(Icons.Default.ShoppingCart, contentDescription = "Go to Checkout")
-                }
+                        if (cartItemCount > 0) {
+                            FloatingActionButton(
+                                onClick = { navController.navigateToCheckout() }
+                            ) {
+                                Icon(Icons.Default.ShoppingCart, contentDescription = "Go to Checkout")
+                            }
             } else {
                 FloatingActionButton(
                     onClick = { productsViewModel.refreshProducts() }
@@ -211,10 +214,10 @@ fun HomeScreen(
     if (showDrawer) {
         NavigationDrawer(
             onDismiss = { showDrawer = false },
-            onProfileClick = {
-                showDrawer = false
-                navController.navigate("profile")
-            },
+                        onProfileClick = {
+                            showDrawer = false
+                            navController.navigateToProfile()
+                        },
             onLogoutClick = {
                 showDrawer = false
                 authViewModel.signOut()

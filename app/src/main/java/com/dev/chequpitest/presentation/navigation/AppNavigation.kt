@@ -17,25 +17,32 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "splash"
+        startDestination = AppRoutes.Splash.route
     ) {
-        composable("splash") {
+        composable(AppRoutes.Splash.route) {
             SplashScreen(navController = navController)
         }
         
-        composable("login") {
+        composable(AppRoutes.Login.route) {
             LoginScreen(navController = navController)
         }
         
-        composable("home") {
+        composable(AppRoutes.Home.route) {
             HomeScreen(navController = navController)
         }
         
-        composable("profile") {
+        composable(AppRoutes.Profile.route) {
             ProfileScreen(navController = navController)
         }
-        composable("checkout") {
+        
+        composable(AppRoutes.Checkout.route) {
             CheckoutScreen(navController = navController, startPayment = startPayment)
+        }
+        
+        composable(AppRoutes.OrderSuccess.route) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getString("orderId") ?: ""
+            // Since OrderSuccessScreen was removed, navigate back to home
+            navController.navigateToHome()
         }
     }
 }

@@ -45,6 +45,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.dev.chequpitest.presentation.navigation.popBackTo
+import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.event.PaymentEvent
 import com.dev.chequpitest.presentation.ui.state.CartUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
@@ -71,7 +73,7 @@ fun CheckoutScreen(
             TopAppBar(
                 title = { Text("Checkout") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.popBackTo(AppRoutes.Home) }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -123,7 +125,7 @@ fun CheckoutScreen(
                                     textAlign = TextAlign.Center
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
-                                Button(onClick = { navController.popBackStack() }) {
+                                Button(onClick = { navController.popBackTo(AppRoutes.Home) }) {
                                     Text("Continue Shopping")
                                 }
                             }
@@ -205,7 +207,7 @@ fun CheckoutScreen(
                                     Button(
                                         onClick = {
                                             cartViewModel.onPayButtonClicked(cratState.cart.totalAmount)
-                                            navController.popBackStack()
+                                            navController.popBackTo(AppRoutes.Home)
                                         },
                                         modifier = Modifier.fillMaxWidth()
                                     ) {

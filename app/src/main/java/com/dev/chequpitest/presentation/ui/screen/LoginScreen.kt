@@ -35,6 +35,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dev.chequpitest.R
 import com.dev.chequpitest.data.auth.GoogleSignInHelper
+import com.dev.chequpitest.presentation.navigation.navigateAndPopUpTo
+import com.dev.chequpitest.presentation.navigation.AppRoutes
 import com.dev.chequpitest.presentation.ui.state.AuthUiState
 import com.dev.chequpitest.presentation.ui.viewmodel.AuthViewModel
 import dagger.hilt.android.EntryPointAccessors
@@ -57,9 +59,11 @@ fun LoginScreen(
     LaunchedEffect(uiState) {
         when (uiState) {
             is AuthUiState.Authenticated -> {
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
+                navController.navigateAndPopUpTo(
+                    destination = AppRoutes.Home,
+                    popUpTo = AppRoutes.Login,
+                    inclusive = true
+                )
             }
             else -> { /* Handle other states */ }
         }
