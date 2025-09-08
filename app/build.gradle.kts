@@ -65,9 +65,6 @@ dependencies {
     
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    
-    // Coil for image loading
-    implementation("io.coil-kt:coil-compose:2.5.0")
 
 
     implementation(platform(libs.firebase.bom))
@@ -75,6 +72,10 @@ dependencies {
     implementation (libs.androidx.credentials)
     implementation( libs.androidx.credentials.play.services.auth)
     implementation (libs.googleid)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.coil.compose)
 
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")

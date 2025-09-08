@@ -20,6 +20,8 @@ firebaseDatabase = "22.0.0"
 credentials = "1.5.0-beta01"
 firebaseBom = "33.5.1"
 googleid = "1.1.1"
+retrofit = "3.0.0"
+coilCompose = "2.4.0"
 
 
 [libraries]
@@ -49,7 +51,10 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name= "converter-gson", version.ref = "retrofit" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 
 [plugins]

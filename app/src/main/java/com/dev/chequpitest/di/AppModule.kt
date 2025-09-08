@@ -2,17 +2,25 @@ package com.dev.chequpitest.di
 
 import android.content.Context
 import androidx.room.Room
+import com.dev.chequpitest.core.API_URL
 import com.dev.chequpitest.data.auth.GoogleSignInHelper
 import com.dev.chequpitest.data.local.dao.UserDao
 import com.dev.chequpitest.data.local.database.AppDatabase
+import com.dev.chequpitest.data.remote.api.ProductApiService
 import com.dev.chequpitest.data.repository.AuthRepositoryImpl
+import com.dev.chequpitest.data.repository.ProductRepositoryImpl
 import com.dev.chequpitest.domain.repository.AuthRepository
+import com.dev.chequpitest.domain.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +55,37 @@ object AppModule {
         firebaseAuth: FirebaseAuth
     ): GoogleSignInHelper {
         return GoogleSignInHelper(context, firebaseAuth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setLenient()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductApiService(retrofit: Retrofit): ProductApiService {
+        return retrofit.create(ProductApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository(
+        productApiService: ProductApiService
+    ): ProductRepository {
+        return ProductRepositoryImpl(productApiService)
     }
 
     @Provides
