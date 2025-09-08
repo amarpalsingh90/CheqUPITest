@@ -58,23 +58,20 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
     }
 
     fun startPayment(amount: Double) {
-        Log.d("Payment", "started")
-        val activity: Activity = this
-        val co = Checkout()
         try {
+            val co = Checkout()
             val options = JSONObject()
             options.put("name", "Razorpay Corp")
             options.put("description", "Demoing Charges")
             options.put("currency", "INR");
-            options.put("amount", amount*100)
+            options.put("amount", amount * 100)
             val retryObj = JSONObject()
             retryObj.put("enabled", true)
             retryObj.put("max_count", 40)
             options.put("retry", retryObj)
-
-            co.open(activity, options)
+            co.open(this, options)
         } catch (e: Exception) {
-            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
     }
