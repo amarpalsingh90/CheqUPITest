@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "292915051063",
+    "firebase_url": "https://chequpitest-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chequpitest",
+    "storage_bucket": "chequpitest.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292915051063:android:b617fe36803e49cd439db2",
+        "android_client_info": {
+          "package_name": "com.dev.chequpitest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292915051063-08bhsb93nf9u58unooifoomaq5ilibju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.chequpitest",
+            "certificate_hash": "dd7237e704afd513d3ef9437d9ee4f15a9225903"
+          }
+        },
+        {
+          "client_id": "292915051063-uhlog1j7jc1rbhdt7600v9s40js95lgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqa7yoclq24_ehPQ29m5W6Edp697zNj4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292915051063-uhlog1j7jc1rbhdt7600v9s40js95lgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
