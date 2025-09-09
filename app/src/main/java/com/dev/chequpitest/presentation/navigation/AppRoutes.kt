@@ -8,6 +8,7 @@ sealed class AppRoutes(val route: String) {
     object Home : AppRoutes(StringConstants.ROUTE_HOME)
     object Profile : AppRoutes(StringConstants.ROUTE_PROFILE)
     object Checkout : AppRoutes(StringConstants.ROUTE_CHECKOUT)
+    object OrderHistory : AppRoutes("order_history")
     object OrderSuccess : AppRoutes(StringConstants.ROUTE_ORDER_SUCCESS) {
         fun createRoute(orderId: String) = "order_success/$orderId"
     }

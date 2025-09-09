@@ -6,18 +6,21 @@ import androidx.room.RoomDatabase
 import android.content.Context
 import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.data.local.dao.CartDao
+import com.dev.chequpitest.data.local.dao.OrderDao
 import com.dev.chequpitest.data.local.dao.UserDao
 import com.dev.chequpitest.data.local.entity.CartItemEntity
+import com.dev.chequpitest.data.local.entity.OrderEntity
 import com.dev.chequpitest.data.local.entity.UserEntity
 
 @Database(
-    entities = [UserEntity::class, CartItemEntity::class],
-    version = 3,
+    entities = [UserEntity::class, CartItemEntity::class, OrderEntity::class],
+    version = 4,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun cartDao(): CartDao
+    abstract fun orderDao(): OrderDao
 
     companion object {
         @Volatile

@@ -5,14 +5,17 @@ import androidx.room.Room
 import com.dev.chequpitest.constant.API_URL
 import com.dev.chequpitest.data.auth.GoogleSignInHelper
 import com.dev.chequpitest.data.local.dao.CartDao
+import com.dev.chequpitest.data.local.dao.OrderDao
 import com.dev.chequpitest.data.local.dao.UserDao
 import com.dev.chequpitest.data.local.database.AppDatabase
 import com.dev.chequpitest.data.remote.api.ProductApiService
 import com.dev.chequpitest.data.repository.AuthRepositoryImpl
 import com.dev.chequpitest.data.repository.CartRepositoryImpl
+import com.dev.chequpitest.data.repository.OrderRepositoryImpl
 import com.dev.chequpitest.data.repository.ProductRepositoryImpl
 import com.dev.chequpitest.domain.repository.AuthRepository
 import com.dev.chequpitest.domain.repository.CartRepository
+import com.dev.chequpitest.domain.repository.OrderRepository
 import com.dev.chequpitest.domain.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -49,6 +52,11 @@ object AppModule {
     @Provides
     fun provideCartDao(database: AppDatabase): CartDao {
         return database.cartDao()
+    }
+
+    @Provides
+    fun provideOrderDao(database: AppDatabase): OrderDao {
+        return database.orderDao()
     }
 
     @Provides
@@ -103,6 +111,14 @@ object AppModule {
         cartDao: CartDao
     ): CartRepository {
         return CartRepositoryImpl(cartDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrderRepository(
+        orderDao: OrderDao
+    ): OrderRepository {
+        return OrderRepositoryImpl(orderDao)
     }
 
     @Provides

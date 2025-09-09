@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.presentation.navigation.navigateToCheckout
+import com.dev.chequpitest.presentation.navigation.navigateToOrderHistory
 import com.dev.chequpitest.presentation.navigation.navigateToProfile
 import com.dev.chequpitest.presentation.ui.components.CartBadge
 import com.dev.chequpitest.presentation.ui.components.NavigationDrawer
@@ -214,10 +215,14 @@ fun HomeScreen(
     if (showDrawer) {
         NavigationDrawer(
             onDismiss = { showDrawer = false },
-                        onProfileClick = {
-                            showDrawer = false
-                            navController.navigateToProfile()
-                        },
+            onProfileClick = {
+                showDrawer = false
+                navController.navigateToProfile()
+            },
+            onOrderHistoryClick = {
+                showDrawer = false
+                navController.navigateToOrderHistory()
+            },
             onLogoutClick = {
                 showDrawer = false
                 authViewModel.signOut()

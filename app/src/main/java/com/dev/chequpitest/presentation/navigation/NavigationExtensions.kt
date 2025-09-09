@@ -23,6 +23,10 @@ fun NavController.navigateToProfile() {
     navigate(AppRoutes.Profile.route)
 }
 
+fun NavController.navigateToOrderHistory() {
+    navigate(AppRoutes.OrderHistory.route)
+}
+
 fun NavController.navigateToCheckout() {
     navigate(AppRoutes.Checkout.route)
 }

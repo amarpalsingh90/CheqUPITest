@@ -13,18 +13,30 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.dev.chequpitest.constant.StringConstants
+import com.dev.chequpitest.domain.model.Order
+import com.dev.chequpitest.domain.model.OrderStatus
 import com.dev.chequpitest.domain.model.User
+import com.dev.chequpitest.domain.usecase.UpdateOrderUseCase
 import com.dev.chequpitest.presentation.navigation.AppNavigation
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 import com.dev.chequpitest.ui.theme.CheqUpiTestTheme
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PaymentResultListener {
     private val viewModel: CartViewModel by viewModels()
+    
+    @Inject
+    lateinit var updateOrderUseCase: UpdateOrderUseCase
+    
+    private var currentOrder: Order? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,7 +47,8 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    AppNavigation(navController = navController) { amount, user ->
+                    AppNavigation(navController = navController) { amount, user, order ->
+                        currentOrder = order
                         startPayment(amount, user)
                     }
                 }
@@ -50,16 +63,42 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
 
     override fun onPaymentSuccess(p0: String?) {
         Log.d(StringConstants.LOG_TAG_PAYMENT, "success: $p0")
+        Toast.makeText(this,
+            StringConstants.PAYMENT_SUCCESS, Toast.LENGTH_LONG).show()
+        
+        // Update order status to success
+        currentOrder?.let { order ->
+            val updatedOrder = order.copy(
+                status = OrderStatus.ORDER_PLACED_SUCCESSFULLY,
+                razorpayPaymentId = p0
+            )
+            CoroutineScope(Dispatchers.IO).launch {
+                updateOrderUseCase(updatedOrder)
+            }
+        }
+        
         viewModel.clearCart()
-
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
         Log.d(StringConstants.LOG_TAG_PAYMENT, "error: $p0 - $p1")
+        Toast.makeText(this,
+            StringConstants.PAYMENT_FAILED, Toast.LENGTH_LONG).show()
+        
+        // Update order status to failed
+        currentOrder?.let { order ->
+            val updatedOrder = order.copy(
+                status = OrderStatus.ORDER_FAILED
+            )
+            CoroutineScope(Dispatchers.IO).launch {
+                updateOrderUseCase(updatedOrder)
+            }
+        }
+        
         viewModel.clearError()
     }
 
-    fun startPayment(amount: Double, user: User?) {
+ private   fun startPayment(amount: Double, user: User?) {
         try {
             val co = Checkout()
             val options = JSONObject()

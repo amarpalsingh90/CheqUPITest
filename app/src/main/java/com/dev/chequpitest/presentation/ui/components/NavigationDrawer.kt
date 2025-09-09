@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +39,7 @@ import kotlinx.coroutines.launch
 fun NavigationDrawer(
     onDismiss: () -> Unit,
     onProfileClick: () -> Unit,
+    onOrderHistoryClick: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Open)
@@ -96,6 +98,34 @@ fun NavigationDrawer(
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
                         text = StringConstants.PROFILE,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
+                // Order History Option
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { 
+                            scope.launch {
+                                drawerState.close()
+                            }
+                            onOrderHistoryClick()
+                            onDismiss()
+                        }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Order History",
+                        modifier = Modifier.size(24.dp),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = "Order History",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
