@@ -2,8 +2,11 @@ package com.dev.chequpitest.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dev.chequpitest.data.local.dao.UserDao
+import com.dev.chequpitest.data.mapper.toDomain
 import com.dev.chequpitest.domain.model.Cart
 import com.dev.chequpitest.domain.model.Product
+import com.dev.chequpitest.domain.model.User
 import com.dev.chequpitest.domain.usecase.AddToCartUseCase
 import com.dev.chequpitest.domain.usecase.ClearCartUseCase
 import com.dev.chequpitest.domain.usecase.GetCartUseCase
@@ -17,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +30,8 @@ class CartViewModel @Inject constructor(
     private val addToCartUseCase: AddToCartUseCase,
     private val removeFromCartUseCase: RemoveFromCartUseCase,
     private val updateCartQuantityUseCase: UpdateCartQuantityUseCase,
-    private val clearCartUseCase: ClearCartUseCase
+    private val clearCartUseCase: ClearCartUseCase,
+    private val userDao: UserDao
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Loading)
@@ -43,7 +48,17 @@ class CartViewModel @Inject constructor(
     fun onPayButtonClicked(totalAmount: Double)  {
         // Business logic or validations
         viewModelScope.launch {
-            _uiEvent.emit(PaymentEvent.StartPayment(totalAmount))
+            // Get current user data
+            val currentUser = getCurrentUser()
+            _uiEvent.emit(PaymentEvent.StartPayment(totalAmount, currentUser))
+        }
+    }
+
+    private suspend fun getCurrentUser(): User? {
+        return try {
+            userDao.getCurrentUser().first()?.toDomain()
+        } catch (e: Exception) {
+            null
         }
     }
 

@@ -113,6 +113,6 @@ object AppModule {
         firebaseAuth: FirebaseAuth,
         googleSignInHelper: GoogleSignInHelper
     ): AuthRepository {
-        return AuthRepositoryImpl(context, userDao, firebaseAuth, googleSignInHelper)
+        return AuthRepositoryImpl(userDao, firebaseAuth, googleSignInHelper)
     }
 }

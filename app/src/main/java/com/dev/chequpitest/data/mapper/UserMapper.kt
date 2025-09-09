@@ -8,6 +8,7 @@ fun UserEntity.toDomain(): User {
         id = id,
         name = name,
         email = email,
+        phone = phone,
         profileImageUrl = profileImageUrl,
         isSignedIn = isSignedIn
     )
@@ -18,6 +19,7 @@ fun User.toEntity(): UserEntity {
         id = id,
         name = name,
         email = email,
+        phone = phone,
         profileImageUrl = profileImageUrl,
         isSignedIn = isSignedIn
     )

@@ -12,7 +12,7 @@ import com.dev.chequpitest.data.local.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class, CartItemEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

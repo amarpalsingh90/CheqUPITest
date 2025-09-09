@@ -15,7 +15,6 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val context: Context,
     private val userDao: UserDao,
     private val firebaseAuth: FirebaseAuth,
     private val googleSignInHelper: GoogleSignInHelper

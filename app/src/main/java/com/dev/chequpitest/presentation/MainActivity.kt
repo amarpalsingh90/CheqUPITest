@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.dev.chequpitest.constant.StringConstants
+import com.dev.chequpitest.domain.model.User
 import com.dev.chequpitest.presentation.navigation.AppNavigation
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
 import com.dev.chequpitest.ui.theme.CheqUpiTestTheme
@@ -34,8 +35,8 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    AppNavigation(navController = navController) { amount ->
-                        startPayment(amount)
+                    AppNavigation(navController = navController) { amount, user ->
+                        startPayment(amount, user)
                     }
                 }
             }
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         viewModel.clearError()
     }
 
-    fun startPayment(amount: Double) {
+    fun startPayment(amount: Double, user: User?) {
         try {
             val co = Checkout()
             val options = JSONObject()
@@ -66,9 +67,10 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
             options.put("description", StringConstants.PAYMENT_DESCRIPTION)
             options.put("currency", StringConstants.CURRENCY_INR)
             options.put("amount", (amount * 100).toInt())
-            options.put("prefill.email", StringConstants.RAZORPAY_EMAIL)
-            options.put("prefill.contact", StringConstants.RAZORPAY_CONTACT)
-            options.put("prefill.method", StringConstants.RAZORPAY_METHOD)
+            
+            // Use user profile data if available, otherwise use defaults
+            options.put("prefill.email", user?.email ?: "")
+            options.put("prefill.contact", user?.phone ?: "")
             
             val retryObj = JSONObject()
             retryObj.put("enabled", true)

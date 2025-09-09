@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dev.chequpitest.domain.model.User
 import com.dev.chequpitest.presentation.ui.screen.CheckoutScreen
 import com.dev.chequpitest.presentation.ui.screen.HomeScreen
 import com.dev.chequpitest.presentation.ui.screen.LoginScreen
@@ -13,7 +14,7 @@ import com.dev.chequpitest.presentation.ui.screen.SplashScreen
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    startPayment: (totalAmount: Double) -> Unit
+    startPayment: (totalAmount: Double, user: User?) -> Unit
 ) {
     NavHost(
         navController = navController,
