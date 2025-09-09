@@ -59,12 +59,12 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     
     // Room Database
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.navigation.compose)
 
 
     implementation(platform(libs.firebase.bom))
@@ -77,9 +77,8 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.coil.compose)
 
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.razorpay:checkout:1.6.40")
+     //razorpay
+    implementation(libs.razorpay.checkout)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

@@ -15,13 +15,14 @@ coroutinesTest = "1.7.3"
 hilt = "2.51.1"
 ksp = "2.0.21-1.0.27"
 hiltNavigationCompose = "1.2.0"
-firebaseDatabase = "22.0.0"
-
 credentials = "1.5.0-beta01"
 firebaseBom = "33.5.1"
 googleid = "1.1.1"
 retrofit = "3.0.0"
 coilCompose = "2.4.0"
+razorpay = "1.6.40"
+room = "2.6.1"
+navigationCompose = "2.7.7"
 
 
 [libraries]
@@ -47,7 +48,6 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose"}
-firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
@@ -55,7 +55,12 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 converter-gson = { group = "com.squareup.retrofit2", name= "converter-gson", version.ref = "retrofit" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+razorpay_checkout = { module = "com.razorpay:checkout", version.ref = "razorpay" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
