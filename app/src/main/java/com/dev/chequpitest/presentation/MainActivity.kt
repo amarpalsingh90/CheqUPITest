@@ -14,27 +14,20 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.dev.chequpitest.constant.StringConstants
 import com.dev.chequpitest.domain.model.Order
-import com.dev.chequpitest.domain.model.OrderStatus
 import com.dev.chequpitest.domain.model.User
-import com.dev.chequpitest.domain.usecase.UpdateOrderUseCase
 import com.dev.chequpitest.presentation.navigation.AppNavigation
 import com.dev.chequpitest.presentation.ui.viewmodel.CartViewModel
+import com.dev.chequpitest.presentation.ui.viewmodel.OrderHistoryViewModel
 import com.dev.chequpitest.ui.theme.CheqUpiTestTheme
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.json.JSONObject
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PaymentResultListener {
-    private val viewModel: CartViewModel by viewModels()
-    
-    @Inject
-    lateinit var updateOrderUseCase: UpdateOrderUseCase
+    private val cartViewModel: CartViewModel by viewModels()
+    private val orderHistoryViewModel: OrderHistoryViewModel by viewModels()
     
     private var currentOrder: Order? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,19 +58,11 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         Log.d(StringConstants.LOG_TAG_PAYMENT, "success: $p0")
         Toast.makeText(this,
             StringConstants.PAYMENT_SUCCESS, Toast.LENGTH_LONG).show()
-        
         // Update order status to success
         currentOrder?.let { order ->
-            val updatedOrder = order.copy(
-                status = OrderStatus.ORDER_PLACED_SUCCESSFULLY,
-                razorpayPaymentId = p0
-            )
-            CoroutineScope(Dispatchers.IO).launch {
-                updateOrderUseCase(updatedOrder)
-            }
+            orderHistoryViewModel.updateOrderToSuccess(order, p0)
         }
-        
-        viewModel.clearCart()
+        cartViewModel.clearCart()
     }
 
     override fun onPaymentError(p0: Int, p1: String?) {
@@ -87,15 +72,9 @@ class MainActivity : ComponentActivity(), PaymentResultListener {
         
         // Update order status to failed
         currentOrder?.let { order ->
-            val updatedOrder = order.copy(
-                status = OrderStatus.ORDER_FAILED
-            )
-            CoroutineScope(Dispatchers.IO).launch {
-                updateOrderUseCase(updatedOrder)
-            }
+            orderHistoryViewModel.updateOrderToFailed(order)
         }
-        
-        viewModel.clearError()
+        cartViewModel.clearError()
     }
 
  private   fun startPayment(amount: Double, user: User?) {
